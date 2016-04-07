@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">ContactLog</string>
+    <string name="action_settings">Settings</string>
+    <string name="txt_firstname">First name</string>
+    <string name="txt_lastname">Last name</string>
+    <string name="txt_dob">Date of birth</string>
+    <string name="txt_zip">Zip code</string>
+    <string name="txt_done">Done editing</string>
+</resources>
