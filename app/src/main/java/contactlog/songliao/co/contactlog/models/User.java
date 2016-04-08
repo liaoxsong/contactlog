@@ -1,21 +1,26 @@
 package contactlog.songliao.co.contactlog.models;
 
-public class Person {
+import java.util.UUID;
+
+public class User {
+    private String id;
     private String firstName;
     private String lastName;
     private String dateOfBirth;
     private Integer zipCode;
 
-    public Person() {
+    public User() {
 
     }
 
-    public Person(String firstName, String lastName, String dob, Integer zip) {
+    public User(String firstName, String lastName, String dob, Integer zip) {
+        this.id = UUID.randomUUID().toString();
         this.firstName = firstName;
         this.lastName = lastName;
         this.dateOfBirth = dob;
         this.zipCode = zip;
     }
+
 
     public String getFirstName() {
         return firstName;
@@ -49,8 +54,8 @@ public class Person {
         this.zipCode = zip;
     }
 
-    public String getFullName() {
-        return firstName + " " + lastName;
+    public String getId(){
+        return id;
     }
 
 }

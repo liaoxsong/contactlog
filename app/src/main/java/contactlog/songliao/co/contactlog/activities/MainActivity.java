@@ -2,17 +2,25 @@ package contactlog.songliao.co.contactlog.activities;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
+
 import com.firebase.client.Firebase;
+
 import contactlog.songliao.co.contactlog.R;
 import contactlog.songliao.co.contactlog.fragments.ContactListFragment;
 import contactlog.songliao.co.contactlog.fragments.EditFragment;
-import contactlog.songliao.co.contactlog.models.Person;
+import contactlog.songliao.co.contactlog.models.User;
 
 public class MainActivity extends AppCompatActivity {
+
+    private Toolbar mToolbar;
+    private TextView mTitleTxt;
+    private FloatingActionButton mButtonAdd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,22 +28,23 @@ public class MainActivity extends AppCompatActivity {
         Firebase.setAndroidContext(this);
         setContentView(R.layout.activity_main);
         setUpToolbar();
+        setUpFloatingIcon();
         goToContacts();
     }
 
     private void setUpToolbar() {
-        Toolbar toolbar = (Toolbar) findViewById(R.id.main_toolbar);
-        toolbar.setTitleTextColor(Color.WHITE);
-        setSupportActionBar(toolbar);
-        toolbar.showOverflowMenu();
-        toolbar.setOnMenuItemClickListener(new Toolbar.OnMenuItemClickListener() {
+        mToolbar = (Toolbar) findViewById(R.id.main_toolbar);
+        mToolbar.setTitleTextColor(Color.WHITE);
+        mTitleTxt = (TextView) mToolbar.findViewById(R.id.txt_toolbar_title);
+
+    }
+    private void setUpFloatingIcon() {
+        mButtonAdd = (FloatingActionButton) findViewById(R.id.btn_new_contact);
+        mButtonAdd.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onMenuItemClick(MenuItem item) {
-                if (item.getItemId() == R.id.action_add)
-                {
-                    goToEdit(null);
-                }
-                return false;
+            public void onClick(View v) {
+                //create a new contact
+                goToEdit(null);
             }
         });
     }
@@ -48,35 +57,30 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
     }
 
-    public void goToEdit(Person person) {
+    public void goToEdit(User user) {
+        mButtonAdd.setVisibility(View.GONE);
+        if (user == null) {
+            mTitleTxt.setText("Create new contact");
+        } else {
+            mTitleTxt.setText("Edit contact");
+        }
         EditFragment editFragment = new EditFragment();
-        editFragment.setPerson(person);
+        editFragment.setUser(user);
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.fragment_container, new EditFragment())
+                .replace(R.id.fragment_container, editFragment)
                 .addToBackStack(null)
                 .commit();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_add) {
-            return true;
+    public void onBackPressed() {
+        FragmentManager fm = getSupportFragmentManager();
+        mTitleTxt.setText("My Contact");
+        mButtonAdd.setVisibility(View.VISIBLE);
+        if (fm.getBackStackEntryCount() > 1) {
+            super.onBackPressed();
         }
-
-        return super.onOptionsItemSelected(item);
     }
 }

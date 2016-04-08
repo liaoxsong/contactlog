@@ -2,25 +2,22 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_margin="10dp"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp">
 
     <TextView
         android:id="@+id/txt_name"
         style="@style/TextPadding"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="25sp"
-        android:textColor="@android:color/black"
-        android:text="sdsfsdf"/>
+        android:textSize="20sp"
+        android:textColor="@android:color/black"/>
 
     <TextView
         android:id="@+id/txt_information"
         style="@style/TextPadding"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="20sp"
-        android:padding="10dp"
-        android:textColor="@android:color/darker_gray"
-        android:text="sdsfsdf"/>
+        android:textSize="16sp"
+        android:textColor="@android:color/darker_gray" />
 </LinearLayout>
